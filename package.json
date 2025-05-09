@@ -4,7 +4,8 @@
   "description": "Projeto Exemplo Disciplina DEVOPS",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "lint": "eslint src/*.js"
   },
   "keywords": [],
   "author": "",
