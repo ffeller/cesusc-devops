@@ -9,5 +9,5 @@ test('adds -1 + 1 to equal 0', () => {
 });
 
 test('adds 1, 2, 3, 4, 5 to equal 15', () => {
-  expect(sum([1, 2, 3, 4, 5])).toBe(10);
+  expect(sum([1, 2, 3, 4, 5])).toBe(15);
 });
