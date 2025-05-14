@@ -14,8 +14,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-env: # Or as an environment variable
+env: # environment variable
   pass: ${{ secrets.ADMINPASS }}
+  usr: admin
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -34,6 +35,7 @@ jobs:
 
       - name: Show variables
         run: echo "$pass"
+          | echo "$usr"
       - name: Install dependencies
         run: npm install
       - name: Run ESLint
