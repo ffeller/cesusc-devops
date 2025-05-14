@@ -14,6 +14,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env: # Or as an environment variable
+  pass: ${{ secrets.ADMINPASS }}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -29,7 +32,8 @@ jobs:
         with:
           node-version: '20'
 
-      
+      - name: Show variables
+        run: echo "$pass"
       - name: Install dependencies
         run: npm install
       - name: Run ESLint
