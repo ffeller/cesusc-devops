@@ -3,7 +3,7 @@ name: Meu Primeiro Hello World com Actions!
 on:
   push:
     branches:
-      - development
+      - development2
   workflow_dispatch:
 
 jobs:
