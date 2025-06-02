@@ -1,0 +1,17 @@
+name: Meu Primeiro Hello World com Actions!
+
+on:
+  push:
+    branches:
+      - development
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pegando o código do meu projeto
+        uses: actions/checkout@v4
+
+      - name: Exibindo a mensagem de boas-vindas
+        run: echo "Hello World!!"
