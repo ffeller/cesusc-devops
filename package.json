@@ -13,6 +13,8 @@
     "express": "^5.2.1"
   },
   "devDependencies": {
-    "jest": "^30.3.0"
+    "chromedriver": "^147.0.4",
+    "jest": "^30.3.0",
+    "selenium-webdriver": "^4.43.0"
   }
 }
