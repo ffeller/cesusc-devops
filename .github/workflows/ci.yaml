@@ -33,7 +33,7 @@ jobs:
         run: npm run lint
 
       - name: Install chrome
-        run: apt update && apt install google-chrome-stable
+        run: sudo apt update && sudo apt install google-chrome-stable
         
       - name: Run Jest
         run: npm test
