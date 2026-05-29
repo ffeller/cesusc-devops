@@ -35,6 +35,7 @@ jobs:
 #          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
 
   deploy:
+    runs-on: ubuntu-latest
     steps:
       - name: Deploy to Server
         uses: appleboy/ssh-action@v1.0.0 
