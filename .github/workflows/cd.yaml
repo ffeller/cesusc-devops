@@ -44,6 +44,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            cd /opt/cesusc-devops
             docker compose down
             docker compose up -d
             docker system prune -a
