@@ -15,19 +15,42 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build and push the Docker image
+        run: |
+          docker build . --file Dockerfile --tag ffeller/cesusc-devops:${{ github.sha }}
+          docker tag ffeller/cesusc-devops:${{ github.sha }} ffeller/cesusc-devops:latest
+          docker push -a ffeller/cesusc-devops
+  
+  test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    container:
+      ffeller/cesusc-devops:latest
+
+    needs: build
+    if: ${{ success() }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '20'
+      # - uses: actions/checkout@v4
+      # - uses: actions/setup-node@v2
+      #  with:
+      #    node-version: '20'
 
-      - name: Install dependencies
-        run: npm install
+      # - name: Install dependencies
+      #  run: npm install
 
       - name: Run ESLint
         run: npm run lint
@@ -40,7 +63,7 @@ jobs:
         
   delivery:
     runs-on: ubuntu-latest
-    needs: build
+    needs: test
     if: ${{ success() }}
     steps:
       - uses: actions/checkout@v4
