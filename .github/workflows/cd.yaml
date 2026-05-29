@@ -11,25 +11,39 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
+#  deploy:
+
+#    runs-on: ubuntu-latest
+
+#    steps:
+#      - uses: actions/checkout@v4
+#      - uses: actions/setup-node@v2
+#        with:
+#          node-version: '20'
+#
+#      - name: Install dependencies
+#        run: npm install # necessário caso haja alteração nas dependências do projeto
+#
+#      - name: Deploy the application
+#        uses: burnett01/rsync-deployments@5.1
+#        with:
+#          switches: -avzr --delete
+#          path: ./*
+#          remote_path: /opt/cesusc-devops/ # Pasta onde está o nosso projeto
+#          remote_host: 15.228.233.163 # Aqui vai o IP da instância EC2
+#          remote_user: ubuntu
+#          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
+
   deploy:
-
-    runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v2
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@v1.0.0 
         with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm install # necessário caso haja alteração nas dependências do projeto
-
-      - name: Deploy the application
-        uses: burnett01/rsync-deployments@5.1
-        with:
-          switches: -avzr --delete
-          path: ./*
-          remote_path: /opt/cesusc-devops/ # Pasta onde está o nosso projeto
-          remote_host: 15.228.233.163 # Aqui vai o IP da instância EC2
-          remote_user: ubuntu
-          remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
+          host: 15.228.233.163 
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker compose down
+            docker rmi ffeller/cesusc-devops:latest
+            docker compose up -d
+            
