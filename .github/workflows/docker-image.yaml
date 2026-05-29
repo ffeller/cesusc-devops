@@ -22,5 +22,5 @@ jobs:
       - name: Build and push the Docker image
         run: |
           docker build . --file Dockerfile --tag ffeller/cesusc-devops:${{ github.sha }}
-          docker tag ffeller/cesusc-devops2:${{ github.sha }} ffeller/cesusc-devops2:latest
+          docker tag ffeller/cesusc-devops:${{ github.sha }} ffeller/cesusc-devops:latest
           docker push -a ffeller/cesusc-devops
