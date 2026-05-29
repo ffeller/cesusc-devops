@@ -46,4 +46,4 @@ jobs:
           script: |
             docker compose down
             docker compose up -d
-            docker system prune -g
+            docker system prune -a
