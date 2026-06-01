@@ -54,6 +54,8 @@ jobs:
 
       - name: Run ESLint
         run: |
+          pwd
+          ls -l
           cp eslint.config.mjs /opt/cesusc-devops/
           cd /opt/cesusc-devops/
           npm run lint
