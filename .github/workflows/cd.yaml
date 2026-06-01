@@ -46,5 +46,6 @@ jobs:
           script: |
             cd /opt/cesusc-devops
             docker compose down
-            docker system prune -a
+            docker rmi ffeller/cesusc-devops:latest
             docker compose up -d
+            docker system prune -a
