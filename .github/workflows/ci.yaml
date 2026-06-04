@@ -31,7 +31,7 @@ jobs:
         run: npm run lint
 
       - name: Install chrome
-        run: sudo apt update && sudo apt install google-chrome-stable
+        run: sudo apt update && sudo apt install google-chrome-stable -y
 
       - name: Start application
         run: node src/app.js 
