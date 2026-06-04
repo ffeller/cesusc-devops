@@ -9,7 +9,6 @@ async function testGoogle() {
     .setChromeOptions(options)
     .build();
 
-
   try {
     await driver.get('https://www.google.com');
     

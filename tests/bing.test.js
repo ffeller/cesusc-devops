@@ -3,12 +3,11 @@ const { Builder, By, until } = require('selenium-webdriver');
 async function testBing() {
   const chrome = require('selenium-webdriver/chrome');
   const options = new chrome.Options();
-  //options.addArguments('--headless');
+  options.addArguments('--headless');
   const driver = await new Builder()
     .forBrowser('chrome')
     .setChromeOptions(options)
     .build();
-
 
   try {
     await driver.get('https://www.bing.com');
