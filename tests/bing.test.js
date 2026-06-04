@@ -12,7 +12,10 @@ async function testBing() {
   try {
     await driver.get('https://www.bing.com');
     
-    let searchBox = await driver.findElement(By.name('q'));
+    const searchBox = await driver.wait(
+            until.elementLocated(By.name('q')),
+            5000
+        );
     await searchBox.sendKeys('Selenium WebDriver');
     await searchBox.submit();
 
