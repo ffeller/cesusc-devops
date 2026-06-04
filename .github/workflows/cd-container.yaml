@@ -1,4 +1,4 @@
-name: CD
+name: CD-Container
 
 # Controls when the workflow will run
 on:
