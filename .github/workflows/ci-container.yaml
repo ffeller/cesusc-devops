@@ -75,7 +75,9 @@ jobs:
         run: sudo apt update && sudo apt install google-chrome-stable
 
       - name: Run Jest
-        run: npm test
+        run: |
+          npm install jest
+          npm test
         
   delivery:
     runs-on: ubuntu-latest
