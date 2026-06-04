@@ -12,7 +12,7 @@ async function testBing() {
   try {
     await driver.get('https://www.bing.com');
     
-    let searchBox = await driver.findElement(By.id('sb_form_q'));
+    let searchBox = await driver.findElement(By.name('q'));
     await searchBox.sendKeys('Selenium WebDriver');
     await searchBox.submit();
 
