@@ -14,11 +14,16 @@ async function testApp() {
     
     const timeToWaitFor = 5000; // tempo máximo de espera em milissegundos
     const textToWaitFor = 'Selenium'; // texto que esperamos encontrar na página
+    const textToSearchFor = 'Selenium WebDriver'; // texto que queremos pesquisar
 
     await driver.wait(until.titleContains('Página de Exemplo'), timeToWaitFor);
 
-    const searchBox = await driver.findElement(By.name('p'));
-    await searchBox.sendKeys('Selenium WebDriver');
+    // Aguarda o campo de busca estar presente e interage com ele
+    const searchBox = await driver.wait(
+            until.elementLocated(By.name('p')),
+            timeToWaitFor
+        );
+    await searchBox.sendKeys(textToSearchFor);
     await searchBox.submit();
 
     // Aguarda a nova aba ser criada
@@ -36,7 +41,7 @@ async function testApp() {
       return bodyText.includes(textToWaitFor);
     }, timeToWaitFor); 
 
-    await driver.wait(until.titleContains('Selenium'), timeToWaitFor);
+    await driver.wait(until.titleContains(textToWaitFor), timeToWaitFor);
   } finally {
     await driver.quit();
   }

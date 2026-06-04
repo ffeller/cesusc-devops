@@ -12,7 +12,10 @@ async function testGoogle() {
   try {
     await driver.get('https://www.google.com');
     
-    let searchBox = await driver.findElement(By.name('q'));
+    const searchBox = await driver.wait(
+        until.elementLocated(By.name('q')),
+        timeToWaitFor
+    );
     await searchBox.sendKeys('Selenium WebDriver');
     await searchBox.submit();
 

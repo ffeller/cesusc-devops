@@ -31,7 +31,10 @@ jobs:
         run: npm run lint
 
       - name: Install chrome
-        run: sudo apt update && sudo apt install google-chrome-stable -y
+        run: |
+          wget http://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_147.0.7727.137-1_amd64.deb
+          sudo apt update
+          sudo apt install ./google-chrome-stable_147.0.7727.137-1_amd64.deb --allow-downgrades -y
 
       - name: Start application
         run: node src/app.js 
