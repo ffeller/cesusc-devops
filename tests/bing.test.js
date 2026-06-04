@@ -1,9 +1,9 @@
 const { Builder, By, until } = require('selenium-webdriver');
 
-async function testGoogle() {
+async function testBing() {
   const chrome = require('selenium-webdriver/chrome');
   const options = new chrome.Options();
-  options.addArguments('--headless');
+  //options.addArguments('--headless');
   const driver = await new Builder()
     .forBrowser('chrome')
     .setChromeOptions(options)
@@ -11,9 +11,9 @@ async function testGoogle() {
 
 
   try {
-    await driver.get('https://www.google.com');
+    await driver.get('https://www.bing.com');
     
-    let searchBox = await driver.findElement(By.name('q'));
+    let searchBox = await driver.findElement(By.id('sb_form_q'));
     await searchBox.sendKeys('Selenium WebDriver');
     await searchBox.submit();
 
@@ -23,4 +23,4 @@ async function testGoogle() {
   }
 };
 
-test('Google', async () => {await testGoogle()});
+test('Bing', async () => {await testBing()});

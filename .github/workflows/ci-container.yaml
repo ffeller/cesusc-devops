@@ -5,8 +5,8 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  # push:
-  #  branches: [ "develop" ]
+  push:
+    branches: [ "develop" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -15,34 +15,72 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build and push the Docker image
+        run: |
+          docker build . --file Dockerfile --tag ffeller/cesusc-devops:${{ github.sha }}
+          docker tag ffeller/cesusc-devops:${{ github.sha }} ffeller/cesusc-devops:latest
+          docker push -a ffeller/cesusc-devops
+  
+  lint:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    container:
+      ffeller/cesusc-devops:latest
+
+    needs: build
+    if: ${{ success() }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm install
 
       - name: Run ESLint
-        run: npm run lint
+        run: |
+          cp eslint.config.mjs /opt/cesusc-devops/
+          cd /opt/cesusc-devops/
+          npm run lint
+          rm /opt/cesusc-devops/eslint.config.mjs
+
+  test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    services:
+      cesusc:
+        image: ffeller/cesusc-devops:latest
+        # REQUIRED: Map the container port to the runner host
+        ports:
+          - 3000:3000 
+
+    needs: build
+    if: ${{ success() }}
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
 
       - name: Install chrome
         run: sudo apt update && sudo apt install google-chrome-stable
 
-      - name: Start application
-        run: node src/app.js 
-
       - name: Run Jest
         run: npm test
-  
+        
   delivery:
     runs-on: ubuntu-latest
     
-    needs: build
+    needs: [lint,test]
     if: ${{ success() }}
     
     steps:
