@@ -37,7 +37,7 @@ jobs:
           sudo apt install ./google-chrome-stable_147.0.7727.137-1_amd64.deb --allow-downgrades -y
 
       - name: Start application
-        run: node src/app.js 
+        run: node src/app.js &
 
       - name: Run Jest
         run: npm test
