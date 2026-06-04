@@ -12,14 +12,17 @@ async function testGoogle() {
   try {
     await driver.get('https://www.google.com');
     
+    const timeToWaitFor = 5000; // tempo máximo de espera em milissegundos
+    const textToWaitFor = 'Selenium'; // texto que esperamos encontrar na página
+    const textToSearchFor = 'Selenium WebDriver'; // texto que queremos pesquisar
     const searchBox = await driver.wait(
         until.elementLocated(By.name('q')),
         timeToWaitFor
     );
-    await searchBox.sendKeys('Selenium WebDriver');
+    await searchBox.sendKeys(textToSearchFor);
     await searchBox.submit();
 
-    await driver.wait(until.titleContains('Selenium'), 5000);
+    await driver.wait(until.titleContains(textToWaitFor), timeToWaitFor);
   } finally {
     await driver.quit();
   }
