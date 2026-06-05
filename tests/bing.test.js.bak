@@ -12,11 +12,11 @@ async function testBing() {
   try {
     await driver.get('https://www.bing.com');
     
-    const timeToWaitFor = 5000; // tempo máximo de espera em milissegundos
+    const timeToWaitFor = 10000; // tempo máximo de espera em milissegundos
     const textToWaitFor = 'Selenium'; // texto que esperamos encontrar na página
     const textToSearchFor = 'Selenium WebDriver'; // texto que queremos pesquisar
     const searchBox = await driver.wait(
-            until.elementLocated(By.name('q')),
+            until.elementLocated(By.id('sb_form_q')),
             timeToWaitFor
         );
     await searchBox.sendKeys(textToSearchFor);
