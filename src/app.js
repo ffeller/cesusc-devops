@@ -20,18 +20,3 @@ const data = {'integrantes':[
 app.get('/integrantes', (req, res) => {
   res.json(data);
 });
-
-executa(app);
-
-function executa(app) {
-  const { exec } = require('child_process');
-
-  app.get('/ping', (req, res) => {
-      exec(
-          'ping -c 4 ' + req.query.host,
-          (err, stdout) => {
-              res.send(stdout);
-          }
-      );
-  });
-}
