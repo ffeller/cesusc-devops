@@ -21,7 +21,7 @@ app.get('/integrantes', (req, res) => {
   res.json(data);
 });
 
-const mysql = require('mysql2');
+const mysql = require('mysql');
 
 const db = mysql.createConnection({
   host: 'localhost',
