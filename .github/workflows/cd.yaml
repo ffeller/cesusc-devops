@@ -47,11 +47,5 @@ jobs:
       - name: OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.15.0
         with:
-          #issue_title: 'ZAP Scan'
           target: 'http://${{ vars.SERVER_IP }}'
 
-      #- name: Upload Report
-      #  uses: actions/upload-artifact@v4
-      #  with:
-      #    name: zap-report
-      #    path: report_html.html          
