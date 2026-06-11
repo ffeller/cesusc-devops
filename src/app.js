@@ -3,6 +3,14 @@ const app = express();
 const port = 3000;
 //var test
 
+const RateLimit = require('express-rate-limit');
+const limiter = RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // max 100 requests per windowMs
+});
+
+app.use(limiter);
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
 });
