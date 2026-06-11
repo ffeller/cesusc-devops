@@ -20,3 +20,27 @@ const data = {'integrantes':[
 app.get('/integrantes', (req, res) => {
   res.json(data);
 });
+
+const mysql = require('mysql2');
+
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'senha',
+  database: 'empresa'
+});
+
+app.get('/usuario', (req, res) => {
+  const id = req.query.id;
+
+  // VULNERÁVEL A SQL INJECTION
+  const sql = `SELECT * FROM usuarios WHERE id = ${id}`;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      return res.status(500).send(err.message);
+    }
+    res.json(results);
+  });
+});
+
