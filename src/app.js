@@ -43,4 +43,3 @@ app.get('/usuario', (req, res) => {
     res.json(results);
   });
 });
-
