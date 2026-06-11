@@ -45,7 +45,7 @@ jobs:
       - name: OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.15.0
         with:
-          target: 'https://${{ vars.SERVER_IP }}'
+          target: 'http://${{ vars.SERVER_IP }}'
 
       - name: Upload Report
         uses: actions/upload-artifact@v4
