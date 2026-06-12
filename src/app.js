@@ -42,9 +42,9 @@ app.get('/usuario', (req, res) => {
   const id = req.query.id;
 
   // VULNERÁVEL A SQL INJECTION
-  const sql = 'SELECT * FROM usuarios WHERE id = ' + id;
+  const sql = 'SELECT * FROM usuarios WHERE id = ?';
 
-  db.query(sql, (err, results) => {
+  db.query(sql, [id], (err, results) => {
     if (err) {
       return res.status(500).send(err.message);
     }
