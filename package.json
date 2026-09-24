@@ -4,7 +4,8 @@
   "description": "Repositorio para pipelines de codigo",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "lint": "eslint src/*.js"
   },
   "keywords": [],
   "author": "",
