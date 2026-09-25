@@ -3,7 +3,7 @@ const chrome = require('selenium-webdriver/chrome');
 
 async function testGoogle() {
   const options = new chrome.Options();
-  options.addArguments('--headless --verbose');
+  options.addArguments('--headless --verbose --log-path=/tmp/chrome.log');
   let driver = await new Builder()
     .forBrowser('chrome')
     .setChromeOptions(options)
