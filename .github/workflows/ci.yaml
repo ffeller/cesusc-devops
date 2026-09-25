@@ -31,8 +31,13 @@ jobs:
         run: npm install
 
       
+      - name: Install Chrome
+        run: sudo apt update && sudo apt install -y google-chrome-stable
+
       - name: Run ESLint
         run: npm run lint
 
       - name: Run Jest
         run: npm test
+
+      
