@@ -29,10 +29,14 @@ jobs:
       
       - name: Install dependencies
         run: npm install
-
       
       - name: Install Chrome
-        run: sudo apt update && sudo apt install -y google-chrome-stable
+        run: |
+          sudo apt update && apt install curl -y
+          curl http://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_148.0.7778.167-1_amd64.deb \
+            -o /tmp/google-chrome-stable_current_amd64.deb
+          sudo DEBIAN_FRONTEND=noninteractive \
+            apt install -y /tmp/google-chrome-stable_current_amd64.deb
 
       - name: Run ESLint
         run: npm run lint
