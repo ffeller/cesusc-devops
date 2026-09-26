@@ -1,6 +1,13 @@
 const { Builder, By, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 
+const sleep = ms => new Promise(resolve => {
+    setTimeout(
+        () => {resolve()},
+        ms
+    );
+});
+
 async function testGoogle() {
   const options = new chrome.Options();
   options.addArguments('--headless');
