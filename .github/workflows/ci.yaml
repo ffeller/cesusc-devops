@@ -42,8 +42,5 @@ jobs:
         run: npm run lint
 
       - name: Run Jest
-        run: |
-          npm test
-          cat /tmp/chrome.log
-
+        run: npm test
       
