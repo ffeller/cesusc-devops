@@ -27,10 +27,25 @@ jobs:
       - name: Deploy the application
         uses: burnett01/rsync-deployments@5.1
         with:
-          switches: -avzP --delete
+          switches: -avz --delete
           path: ./*
           remote_path: /opt/cesusc-devops/ # Pasta onde está o nosso projeto
           remote_host: "${{ secrets.HOST_IP }}" # Aqui vai o IP da instância EC2
           remote_user: "${{ secrets.SSH_USERNAME }}"
           remote_key: "${{ secrets.SSH_PRIVATE_KEY }}"
-          
+
+  restart_service:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: ${{ success() }}
+    steps:
+    - name: restart PM2 service
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: "${{ secrets.HOST_IP }}"
+        username: "${{ secrets.SSH_USERNAME }}"
+        key: "${{ secrets.SSH_PRIVATE_KEY }}"
+        command_timeout: 30m
+        script: | 
+          pm2 stop
+          pm2 start
