@@ -47,5 +47,6 @@ jobs:
         key: "${{ secrets.SSH_PRIVATE_KEY }}"
         command_timeout: 30m
         script: | 
+          cd /opt/cesusc-devops/
           pm2 stop
           pm2 start
