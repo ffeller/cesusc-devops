@@ -39,7 +39,7 @@ jobs:
           script: |
             cd /opt/cesusc-devops
             git pull origin main
+            docker pull ffeller/cesusc-devops:latest
             docker compose down
-            docker rmi ffeller/cesusc-devops:latest
             docker compose up -d
-            docker system prune -a
+            docker system prune -a -f
