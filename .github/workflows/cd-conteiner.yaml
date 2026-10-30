@@ -8,6 +8,7 @@ on:
   
 env:
   IMAGEM_CESUSC: ffeller/cesusc-devops
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,9 +23,9 @@ jobs:
       - name: Build and push the Docker image
         run: |
           set -eu
-          docker build . --file Dockerfile --tag $IMAGEM_CESUSC:${{ github.sha }}
-          docker tag $IMAGEM_CESUSC:${{ github.sha }} $IMAGEM_CESUSC:latest
-          docker push -a $IMAGEM_CESUSC
+          docker build . --file Dockerfile --tag "$IMAGEM_CESUSC":"${{ github.sha }}"
+          docker tag "$IMAGEM_CESUSC":"${{ github.sha }}" "$IMAGEM_CESUSC":latest
+          docker push -a "$IMAGEM_CESUSC"
 
   deploy:
     runs-on: ubuntu-latest
@@ -37,11 +38,12 @@ jobs:
           host: 15.229.251.117
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: IMAGEM_CESUSC
           script: |
             set -eu
             cd /opt/cesusc-devops
             git pull origin main
-            docker pull $IMAGEM_CESUSC:latest
+            docker pull "$IMAGEM_CESUSC":latest
             docker compose down
             docker compose up -d
             docker system prune -a -f
