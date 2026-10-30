@@ -30,13 +30,14 @@ jobs:
     if: ${{ success() }}
     steps:
       - name: Deploy to Server
-        uses: appleboy/ssh-action@v1.0.0 
+        uses: appleboy/ssh-action@v1.2.2
         with:
           host: 172.31.44.101
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          timeout: 2m
+          command_timeout: 2m
           script: |
+            set -eu
             cd /opt/cesusc-devops
             git pull origin main
             docker pull ffeller/cesusc-devops:latest
