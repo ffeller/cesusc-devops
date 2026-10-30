@@ -38,9 +38,11 @@ jobs:
           command_timeout: 2m
           script: |
             set -eu
+            bash -x <<EOF
             cd /opt/cesusc-devops
             git pull origin main
             docker pull ffeller/cesusc-devops:latest
             docker compose down
             docker compose up -d
             docker system prune -a -f
+            EOF
