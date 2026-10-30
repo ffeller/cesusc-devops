@@ -6,6 +6,8 @@ on:
 
   workflow_dispatch:
   
+env:
+  IMAGEM_CESUSC: ffeller/cesusc-devops
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,13 +17,11 @@ jobs:
         with:
           username: ffeller
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-        env:
-          IMAGEM_CESUSC: ffeller/cesusc-devops:latest
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Build and push the Docker image
         run: |
+          set -eu
           docker build . --file Dockerfile --tag $IMAGEM_CESUSC:${{ github.sha }}
           docker tag $IMAGEM_CESUSC:${{ github.sha }} $IMAGEM_CESUSC:latest
           docker push -a $IMAGEM_CESUSC
@@ -33,16 +33,15 @@ jobs:
     steps:
       - name: Deploy to Server
         uses: appleboy/ssh-action@v1.2.2
-        env:
-          IMAGEM_CESUSC: ffeller/cesusc-devops:latest
         with:
           host: 15.229.251.117
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -eu
             cd /opt/cesusc-devops
             git pull origin main
-            docker pull $IMAGEM_CESUSC
+            docker pull $IMAGEM_CESUSC:latest
             docker compose down
             docker compose up -d
             docker system prune -a -f
