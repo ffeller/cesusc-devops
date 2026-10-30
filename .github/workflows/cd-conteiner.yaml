@@ -15,7 +15,6 @@ jobs:
         with:
           username: ffeller
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -36,8 +35,10 @@ jobs:
           host: 172.31.44.101
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          timeout: 2m
           script: |
             cd /opt/cesusc-devops
+            git pull origin main
             docker compose down
             docker rmi ffeller/cesusc-devops:latest
             docker compose up -d
