@@ -47,3 +47,19 @@ jobs:
             docker compose down
             docker compose up -d
             docker system prune -a -f
+
+  zap_scan:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: ${{ success() }}
+
+    permissions:
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.15.0
+        with:
+          target: 'http://15.229.251.117'
